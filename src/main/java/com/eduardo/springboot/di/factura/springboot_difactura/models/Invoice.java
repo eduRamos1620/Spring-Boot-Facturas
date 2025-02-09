@@ -5,9 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
+
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 
 @Component
+@RequestScope
+//@JsonIgnoreProperties({"targetSource", "advisors"})
 public class Invoice {
+
     @Autowired
     private Client client;
 
@@ -16,6 +25,17 @@ public class Invoice {
 
     @Autowired
     private List<Item> items; 
+
+    @PostConstruct
+    public void init(){
+        System.out.println("Creando el componente de la factura inicio de ciclo de vida");
+        
+    }
+
+    @PreDestroy
+    public void destroy(){
+        System.out.println("Destruyendo el bean invoice");
+    }
 
     public Client getClient(){
         return client;
